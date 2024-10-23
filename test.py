@@ -47,25 +47,45 @@ while cap.isOpened():
             for j, lm in enumerate(res.landmark):
                 joint[j] = [lm.x, lm.y, lm.z, lm.visibility]
 
-            # 관절 간 벡터 계산
+            # # 관절 간 벡터 계산
+            # v1 = joint[
+            #     [0,1,2,3,0,5,6,7,0,9,10,11,0,13,14,15,0,17,18,19], :3
+            # ]  # 부모 관절
+            # v2 = joint[
+            #     [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], :3
+            # ]  # 자식 관절
+            # v = v2 - v1  # [20, 3]
+            # # 벡터 정규화
+            # v = v / np.linalg.norm(v, axis=1)[:, np.newaxis]
+
+            # # 벡터 간 각도 계산
+            # angle = np.arccos(np.einsum(
+            #     'nt,nt->n',
+            #     v[[0,1,2,4,5,6,8,9,10,12,13,14,16,17,18], :],
+            #     v[[1,2,3,5,6,7,9,10,11,13,14,15,17,18,19], :]
+            # ))  # [15,]
+
+            # angle = np.degrees(angle)  # 라디안에서 도로 변환
+
+            # Updated code from data_capture.py
+            # Compute angles between joints
             v1 = joint[
                 [0,1,2,3,0,5,6,7,0,9,10,11,0,13,14,15,0,17,18,19], :3
-            ]  # 부모 관절
+            ]
             v2 = joint[
                 [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20], :3
-            ]  # 자식 관절
+            ]
             v = v2 - v1  # [20, 3]
-            # 벡터 정규화
             v = v / np.linalg.norm(v, axis=1)[:, np.newaxis]
 
-            # 벡터 간 각도 계산
+            # Get angles using arccos of dot product
             angle = np.arccos(np.einsum(
                 'nt,nt->n',
-                v[[0,1,2,4,5,6,8,9,10,12,13,14,16,17,18], :],
-                v[[1,2,3,5,6,7,9,10,11,13,14,15,17,18,19], :]
-            ))  # [15,]
-
-            angle = np.degrees(angle)  # 라디안에서 도로 변환
+                v[:-1, :],
+                v[1:, :]
+            ))
+            angle = np.degrees(angle)  # Convert radian to degree
+            ##################################################################
 
             d = np.concatenate([joint.flatten(), angle])
 
