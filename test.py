@@ -5,7 +5,7 @@ import mediapipe as mp
 import numpy as np
 from tensorflow.keras.models import load_model
 
-from feature_extraction import extract_features  # Import the feature extraction function
+from create_dataset.feature_extraction import extract_features  # Adjusted import
 
 # Load action names
 actions = np.load('actions.npy')

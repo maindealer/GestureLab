@@ -6,10 +6,8 @@ import numpy as np
 import time
 import os
 
-import sys
-sys.path.append('..')  # Add parent directory to sys.path
+from feature_extraction import extract_features # Import the feature extraction function
 
-from feature_extraction import extract_features  # Import the feature extraction function
 
 def capture_data(action_name, collection_time):
     # MediaPipe hands model
