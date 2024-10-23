@@ -13,3 +13,8 @@
 ├── models/                  # 학습된 모델이 저장되는 디렉토리
 │   └── best_model.keras     # 가장 성능이 좋은 모델 파일
 └── actions.npy              # 액션 이름들을 저장한 파일
+
+# 실행순서
+1. create_dataset/main.py를 실행하여 데이터셋 수집
+2. train.ipynb를 실행하여 수집된 데이터 학습 후, 최적의 모델 생성
+3. test.py를 실행하여 테스트
